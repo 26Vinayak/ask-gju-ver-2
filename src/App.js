@@ -1,27 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import Login from "./components/auth/Login";
 import Quora from "./components/Quora";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { AuthContext } from "./components/context/store";
 
 function App() {
-  const user = null;
-  let history = useHistory();
+  const context = useContext(AuthContext);
 
   return (
     <div className="App">
       <Router>
-        {!user ? (
-          <Login />
-        ) : (
+          {!context.user && <Redirect to="/login"/>}
           <Switch>
-            <Route exact path="/quora" component={Quora} />
-            <Route exact path="/">
-              <h1>Home </h1>
-            </Route>
+            {!context.user ?
+             <Route exact path="/login" component={Login}/>
+             :(<>
+              <Route exact path="/quora" component={Quora} />
+              <Route exact path="/">
+                <h1>Home </h1>
+              </Route>
+              </>)}
+            
           </Switch>
-        )}
       </Router>
     </div>
   );

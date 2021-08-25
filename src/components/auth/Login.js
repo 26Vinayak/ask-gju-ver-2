@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../context/store";
 
 function Login() {
   let history = useHistory();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const context = useContext(AuthContext);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ function Login() {
       })
       .then(function (response) {
         console.log("successfully logged in", response.data);
+        context.login(response.data);
         history.push("/quora");
       })
       .catch(function (error) {
@@ -36,6 +39,7 @@ function Login() {
       })
       .then(function (response) {
         console.log("successfully logged in", response.data);
+        context.login(response.data);
         history.push("/quora");
       })
       .catch(function (error) {
