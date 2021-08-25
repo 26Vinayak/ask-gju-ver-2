@@ -1,98 +1,71 @@
 import React, { useState } from "react";
 import "./Login.css";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { auth, provider } from "../../firebase";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function Login() {
+  let history = useHistory();
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const signIn = () => {
-    auth.signInWithPopup(provider).catch((e) => {
-      alert(e.message);
-    });
-  };
 
   const handleSignIn = (e) => {
     e.preventDefault();
-
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((auth) => {
-        console.log(auth);
+    axios
+      .post("http://localhost:8800/api/user/login", {
+        username: username,
+        password: password,
       })
-      .catch((e) => alert(e.message));
+      .then(function (response) {
+        console.log("successfully logged in", response.data);
+        history.push("/quora");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const registerSignIn = (e) => {
     e.preventDefault();
-
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        if (auth) {
-          console.log(auth);
-        }
+    axios
+      .post("http://localhost:8800/api/user/register", {
+        username: username,
+        email: email,
+        password: password,
       })
-      .catch((e) => alert(e.message));
+      .then(function (response) {
+        console.log("successfully logged in", response.data);
+        history.push("/quora");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <div className="login">
       <div className="login__container">
         <div className="login__logo">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Quora_logo_2015.svg/250px-Quora_logo_2015.svg.png"
-            alt=""
-          />
+          <h1 className="glow">Ask GJU</h1>
         </div>
         <div className="login__desc">
-          <p>A Place to Share knowledge and better understand the world</p>
-          <p style={{ color: "royalblue", fontSize: "25px" }}>
-            HandCrafted with ❤️ by{" "}
-          </p>
-          <h3>Code With Akky</h3>
+          <p>GJU is one big family and we need to help each other</p>
+          <h3>Built by Sourabh</h3>
         </div>
         <div className="login__auth">
-          <div className="login__authOptions">
-            <div className="login__authOption">
-              <img
-                className="login__googleAuth"
-                src="https://media-public.canva.com/MADnBiAubGA/3/screen.svg"
-                alt=""
-              />
-              <p onClick={signIn}>Continue With Google</p>
-            </div>
-            <div className="login__authOption">
-              <img
-                className="login__googleAuth"
-                src="https://1000logos.net/wp-content/uploads/2016/11/Facebook-logo-500x350.png"
-                alt=""
-              />
-              <span>Continue With Facebook</span>
-            </div>
-            <div className="login__authDesc">
-              <p>
-                <span style={{ color: "blue", cursor: "pointer" }}>
-                  Sign Up With Email
-                </span>
-                . By continuing you indicate that you have read and agree to
-                Quora's
-                <span style={{ color: "blue", cursor: "pointer" }}>
-                  Terms of Service{" "}
-                </span>
-                and{" "}
-                <span style={{ color: "blue", cursor: "pointer" }}>
-                  Privacy Policy
-                </span>
-                .
-              </p>
-            </div>
-          </div>
           <div className="login__emailPass">
             <div className="login__label">
               <h4>Login</h4>
             </div>
             <div className="login__inputFields">
+              <div className="login__inputField">
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  type="text"
+                  placeholder="username"
+                />
+              </div>
               <div className="login__inputField">
                 <input
                   value={email}
@@ -106,7 +79,7 @@ function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
-                  placeholder="Password"
+                  placeholder="password"
                 />
               </div>
             </div>
@@ -129,7 +102,7 @@ function Login() {
           <p>Privacy</p>
           <p>Terms</p>
           <p>Contact</p>
-          <p>&copy; Quora Fake Inc. 2021</p>
+          <p>&copy; Gju Fake Inc. 2021</p>
         </div>
       </div>
     </div>

@@ -6,46 +6,40 @@ import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined"
 import RepeatOutlinedIcon from "@material-ui/icons/RepeatOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import { MoreHorizOutlined, ShareOutlined } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
 import Modal from "react-modal";
-import db from "../firebase";
-import { selectQuestionId, setQuestionInfo } from "../features/questionSlice";
-import firebase from "firebase";
 
 function Post({ Id, question, imageUrl, timestamp, users }) {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  let user = null;
 
   const [IsmodalOpen, setIsModalOpen] = useState(false);
-  const questionId = useSelector(selectQuestionId);
+  const questionId = null;
   const [answer, setAnswer] = useState("");
   const [getAnswers, setGetAnswers] = useState([]);
 
   useEffect(() => {
-    if (questionId) {
-      db.collection("questions")
-        .doc(questionId)
-        .collection("answer")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) =>
-          setGetAnswers(
-            snapshot.docs.map((doc) => ({ id: doc.id, answers: doc.data() }))
-          )
-        );
-    }
+    // if (questionId) {
+    //   db.collection("questions")
+    //     .doc(questionId)
+    //     .collection("answer")
+    //     .orderBy("timestamp", "desc")
+    //     .onSnapshot((snapshot) =>
+    //       setGetAnswers(
+    //         snapshot.docs.map((doc) => ({ id: doc.id, answers: doc.data() }))
+    //       )
+    //     );
+    // }
   }, [questionId]);
 
   const handleAnswer = (e) => {
     e.preventDefault();
 
     if (questionId) {
-      db.collection("questions").doc(questionId).collection("answer").add({
-        user: user,
-        answer: answer,
-        questionId: questionId,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+      // db.collection("questions").doc(questionId).collection("answer").add({
+      //   user: user,
+      //   answer: answer,
+      //   questionId: questionId,
+      //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      // });
     }
     console.log(questionId);
     setAnswer("");
@@ -54,14 +48,14 @@ function Post({ Id, question, imageUrl, timestamp, users }) {
   return (
     <div
       className="post"
-      onClick={() =>
-        dispatch(
-          setQuestionInfo({
-            questionId: Id,
-            questionName: question,
-          })
-        )
-      }
+      // onClick={() =>
+      //   dispatch(
+      //     setQuestionInfo({
+      //       questionId: Id,
+      //       questionName: question,
+      //     })
+      //   )
+      // }
     >
       <div className="post__info">
         <Avatar

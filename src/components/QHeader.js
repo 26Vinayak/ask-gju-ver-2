@@ -10,16 +10,12 @@ import Modal from "react-modal";
 
 import "./QHeader.css";
 import { Avatar, Button, Input } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
-import db, { auth } from "../firebase";
 import { ExpandMore, Link } from "@material-ui/icons";
-import firebase from "firebase";
 
 Modal.setAppElement("#root");
 
 function QHeader() {
-  const user = useSelector(selectUser);
+  const user = null;
 
   const [IsmodalOpen, setIsModalOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -31,12 +27,12 @@ function QHeader() {
     setIsModalOpen(false);
 
     if (questionName) {
-      db.collection("questions").add({
-        user: user,
-        question: input,
-        imageUrl: inputUrl,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+      // db.collection("questions").add({
+      //   user: user,
+      //   question: input,
+      //   imageUrl: inputUrl,
+      //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      // });
     }
 
     setInput("");
@@ -75,7 +71,7 @@ function QHeader() {
       <div className="qHeader__Rem">
         <div className="qHeader__avatar">
           <Avatar
-            onClick={() => auth.signOut()}
+            // onClick={() => auth.signOut()}
             className="Avatar"
             src={
               user.photo

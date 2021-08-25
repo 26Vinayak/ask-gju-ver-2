@@ -5,14 +5,16 @@ import "./Quora.css";
 import Sidebar from "./Sidebar";
 import Widget from "./Widget.js";
 
+
 function Quora() {
   return (
     <div className="quora">
-      <QHeader />
+      {/* <QHeader /> */}
       <div className="quora__content">
-        <Sidebar />
+        {/* <Sidebar />
         <Feed />
-        <Widget />
+        <Widget /> */}
+        <h1>YOO I am back with mern</h1>
       </div>
     </div>
   );
